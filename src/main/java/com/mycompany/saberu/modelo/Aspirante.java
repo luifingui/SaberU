@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.saberu.Modelo;
+package com.mycompany.saberu.modelo;
 
 /**
  *
@@ -37,6 +37,16 @@ public class Aspirante extends Persona {
     public void seleccionarCarreras() {}
     public void validarPuntaje() {}
     public void actualizarPreferencia() {}
+
+    // REQUISITO 2.1: LIGADURA DINÁMICA
+    // Sobrescritura del método de la clase padre para demostrar polimorfismo
+    @Override
+    public String obtenerDetalles() {
+        return super.obtenerDetalles() + 
+               " | Puntaje Saber 11: " + puntajeSaber11 +
+               " | Carrera A: " + carreraA +
+               " | Carrera B: " + (carreraB != null ? carreraB : "Ninguna");
+    }
 
     // Implementación del método abstracto
     @Override

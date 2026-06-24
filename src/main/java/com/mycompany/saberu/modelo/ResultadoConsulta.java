@@ -1,4 +1,4 @@
-package com.mycompany.saberu.Modelo;
+package com.mycompany.saberu.modelo;
 
 public class ResultadoConsulta {
     private String nombreUniversidad;

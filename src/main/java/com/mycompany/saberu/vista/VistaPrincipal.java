@@ -1,16 +1,19 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package com.mycompany.saberu.Vista;
+package com.mycompany.saberu.vista;
 
-import com.mycompany.saberu.Controlador.ControladorAdmision;
-import com.mycompany.saberu.Modelo.Aspirante;
-import com.mycompany.saberu.Modelo.ResultadoConsulta;
+import com.mycompany.saberu.controlador.ControladorAdmision;
+import com.mycompany.saberu.modelo.Aspirante;
+import com.mycompany.saberu.modelo.Persona;
+import com.mycompany.saberu.modelo.ResultadoConsulta;
+import com.mycompany.saberu.excepciones.ElementoNoEncontradoException;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,7 +43,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author luife
  */
-public class VistaPrincipal extends JFrame {
+public class VistaPrincipal extends JFrame implements Limpiable {
 
     private static final String OPCION_SIN_CARRERA = "-- Ninguna --";
 
@@ -52,10 +56,12 @@ public class VistaPrincipal extends JFrame {
     private JComboBox<String> cmbCarreraPrincipal;
     private JComboBox<String> cmbCarreraSecundaria;
     private JButton btnConsultar;
+    private JButton btnLimpiar;
 
     private DefaultTableModel modeloTabla;
     private JTable tablaResultados;
     private JLabel lblAnalisis;
+    private JTextArea txtDetallesAspirante;
 
     public VistaPrincipal(ControladorAdmision controlador) {
         this.controlador = controlador;
@@ -65,7 +71,7 @@ public class VistaPrincipal extends JFrame {
     private void construirInterfaz() {
         setTitle("Saber U - Consulta de Admision");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(860, 560);
+        setSize(700, 500);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(12, 12));
         ((JPanel) getContentPane()).setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
@@ -100,9 +106,17 @@ public class VistaPrincipal extends JFrame {
         btnConsultar = new JButton("Consultar Admision");
         btnConsultar.addActionListener(e -> consultarAdmision());
 
+        // REQUISITO 2.2: Botón para limpiar formulario (interfaz Limpiable)
+        btnLimpiar = new JButton("Limpiar Formulario");
+        btnLimpiar.addActionListener(e -> limpiarCampos());
+
+        JPanel panelBotones = new JPanel(new GridLayout(1, 2, 8, 0));
+        panelBotones.add(btnConsultar);
+        panelBotones.add(btnLimpiar);
+
         JPanel panelBoton = new JPanel(new BorderLayout());
         panelBoton.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
-        panelBoton.add(btnConsultar, BorderLayout.EAST);
+        panelBoton.add(panelBotones, BorderLayout.EAST);
 
         JPanel contenedor = new JPanel(new BorderLayout());
         contenedor.add(panelCampos, BorderLayout.CENTER);
@@ -168,34 +182,97 @@ public class VistaPrincipal extends JFrame {
                 BorderFactory.createTitledBorder("Analisis"),
                 BorderFactory.createEmptyBorder(8, 12, 8, 12)));
         lblAnalisis = new JLabel("Ingrese sus datos y presione \"Consultar Admision\".");
-        panel.add(lblAnalisis, BorderLayout.CENTER);
+        panel.add(lblAnalisis, BorderLayout.NORTH);
+        
+        // REQUISITO 2.1: Área para mostrar detalles usando ligadura dinámica
+        txtDetallesAspirante = new JTextArea(4, 50);
+        txtDetallesAspirante.setEditable(false);
+        txtDetallesAspirante.setBorder(BorderFactory.createTitledBorder("Detalles del Aspirante (Ligadura Dinámica)"));
+        panel.add(new JScrollPane(txtDetallesAspirante), BorderLayout.CENTER);
+        
         return panel;
     }
 
     /**
      * Accion del boton: lee el formulario, le pide al Controlador que
      * haga la consulta y pinta los resultados en la tabla.
+     * REQUISITO 2.3: Lanza ElementoNoEncontradoException si campos están vacíos.
+     * REQUISITO 2.5: Usa hilos para procesamiento asíncrono.
      */
     private void consultarAdmision() {
-        try {
-            Aspirante aspirante = construirAspiranteDesdeFormulario();
-            controlador.validarDatosAspirante(aspirante);
+        // REQUISITO 2.5: Iniciar hilo para procesamiento asíncrono
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Actualizar etiqueta en el hilo de Swing
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        lblAnalisis.setText("Procesando consulta en segundo plano...");
+                    });
+                    
+                    // REQUISITO 2.3: Validar que campos no estén vacíos
+                    if (txtNombre.getText().trim().isEmpty() || 
+                        txtIdentificacion.getText().trim().isEmpty() ||
+                        txtPuntaje.getText().trim().isEmpty()) {
+                        throw new ElementoNoEncontradoException("Datos no encontrados o campos vacíos");
+                    }
+                    
+                    Aspirante aspirante = construirAspiranteDesdeFormulario();
+                    controlador.validarDatosAspirante(aspirante);
 
-            List<ResultadoConsulta> resultadosA = controlador.consultarCarreraPrincipal(aspirante);
-            List<ResultadoConsulta> resultadosB = controlador.consultarCarreraSecundaria(aspirante);
+                    // REQUISITO 2.3: Manejo de excepción personalizada
+                    List<ResultadoConsulta> resultadosA = controlador.consultarCarreraPrincipal(aspirante);
+                    List<ResultadoConsulta> resultadosB = controlador.consultarCarreraSecundaria(aspirante);
 
-            mostrarResultados(resultadosA, resultadosB);
+                    // REQUISITO 2.5: Simular procesamiento
+                    Thread.sleep(1000);
+                    
+                    // Mostrar resultados en el hilo de Swing
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        mostrarResultados(resultadosA, resultadosB);
 
-            String mensaje = controlador.generarMensajeAnalisis(resultadosA, resultadosB);
-            lblAnalisis.setText(mensaje);
+                        String mensaje = controlador.generarMensajeAnalisis(resultadosA, resultadosB);
+                        lblAnalisis.setText(mensaje);
 
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Identificacion, edad y puntaje deben ser numeros validos.",
-                    "Dato invalido", JOptionPane.ERROR_MESSAGE);
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Dato invalido", JOptionPane.ERROR_MESSAGE);
-        }
+                        // REQUISITO 2.1: LIGADURA DINÁMICA
+                        // Usamos referencia de la clase padre (Persona) para llamar al método
+                        Persona persona = aspirante; // Upcasting: Aspirante -> Persona
+                        String detalles = persona.obtenerDetalles(); // Ligadura dinámica en ejecución
+                        txtDetallesAspirante.setText(detalles);
+                        
+                        lblAnalisis.setText("¡Consulta Completada con éxito!");
+                    });
+                    
+                } catch (NumberFormatException ex) {
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(VistaPrincipal.this,
+                                "Identificacion, edad y puntaje deben ser numeros validos.",
+                                "Dato invalido", JOptionPane.ERROR_MESSAGE);
+                        lblAnalisis.setText("Error en la consulta");
+                    });
+                } catch (IllegalArgumentException ex) {
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(VistaPrincipal.this, ex.getMessage(), "Dato invalido", JOptionPane.ERROR_MESSAGE);
+                        lblAnalisis.setText("Error en la consulta");
+                    });
+                } catch (ElementoNoEncontradoException ex) {
+                    // REQUISITO 2.3: Alerta visual nativa para excepción personalizada
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(VistaPrincipal.this,
+                                "Error: Datos no encontrados o campos vacíos",
+                                "Error de Búsqueda",
+                                JOptionPane.ERROR_MESSAGE);
+                        lblAnalisis.setText("Error en la consulta");
+                    });
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        lblAnalisis.setText("Procesamiento interrumpido");
+                    });
+                }
+            }
+        });
+        hilo.start(); // Inicia el hilo sin congelar la ventana
     }
 
     private Aspirante construirAspiranteDesdeFormulario() {
@@ -242,5 +319,19 @@ public class VistaPrincipal extends JFrame {
         }
         carreras.addAll(controlador.obtenerCarrerasDisponibles());
         return carreras.toArray(new String[0]);
+    }
+
+    // REQUISITO 2.2: Implementación de la interfaz Limpiable
+    @Override
+    public void limpiarCampos() {
+        txtNombre.setText("");
+        txtIdentificacion.setText("");
+        txtEdad.setText("");
+        txtPuntaje.setText("");
+        cmbCarreraPrincipal.setSelectedIndex(0);
+        cmbCarreraSecundaria.setSelectedIndex(0);
+        modeloTabla.setRowCount(0);
+        lblAnalisis.setText("Ingrese sus datos y presione \"Consultar Admision\".");
+        txtDetallesAspirante.setText("");
     }
 }
