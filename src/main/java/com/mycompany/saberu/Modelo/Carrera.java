@@ -35,9 +35,27 @@ public class Carrera {
     public String getFacultad() { return facultad; }
     public void setFacultad(String facultad) { this.facultad = facultad; }
 
-    public void registrarPrograma() {}
-    public void obtenerCorte() {}
-    public void compararPuntaje() {}
-    public void actualizarCorte() {}
-    public void obtenerInfoCarrera() {}   
+    public double obtenerCorte() {
+        return puntajeCorte;
+    }
+
+    public boolean compararPuntaje(double puntajeAspirante) {
+        return puntajeAspirante >= puntajeCorte;
+    }
+
+    public double calcularFaltante(double puntajeAspirante) {
+        if (compararPuntaje(puntajeAspirante)) {
+            return 0;
+        }
+
+        return puntajeCorte - puntajeAspirante;
+    }
+
+    public String obtenerInfoCarrera() {
+        return nombreCarrera + " | Facultad: " + facultad + " | Corte: " + puntajeCorte;
+    }
+
+    public boolean aceptaPuntaje(double puntajeAspirante) {
+        return compararPuntaje(puntajeAspirante);
+    }
 }

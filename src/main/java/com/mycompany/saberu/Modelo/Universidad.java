@@ -42,9 +42,11 @@ public class Universidad {
     public boolean isEsAcreditada() { return esAcreditada; }
     public void setEsAcreditada(boolean esAcreditada) { this.esAcreditada = esAcreditada; }
 
-    public void registrarUniversidad() {}
-    public void agregarCarrera() {}
-    public void consultarCarreras() {}
-    public void verificarDisponibilidad() {}
-    public void obtenerEnlaceOficial() {}
+    public List<Carrera> consultarCarreras() {
+        return listaCarreras;
+    }
+
+    public String obtenerEnlaceOficial() {
+        return sitioWeb;
+    }
 }
