@@ -1,12 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package com.mycompany.saberu.Controlador;
+package com.mycompany.saberu.controlador;
 
-import com.mycompany.saberu.Modelo.Aspirante;
-import com.mycompany.saberu.Modelo.Carrera;
-import com.mycompany.saberu.Modelo.ResultadoConsulta;
-import com.mycompany.saberu.Modelo.Universidad;
+import com.mycompany.saberu.modelo.Aspirante;
+import com.mycompany.saberu.modelo.Carrera;
+import com.mycompany.saberu.modelo.ResultadoConsulta;
+import com.mycompany.saberu.modelo.Universidad;
+import com.mycompany.saberu.excepciones.ElementoNoEncontradoException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,16 @@ public class ControladorAdmision {
     /**
      * Busca en todas las universidades la carrera principal (Opcion A)
      * del aspirante.
+     * REQUISITO 2.3: Lanza ElementoNoEncontradoException si no hay resultados.
      */
-    public List<ResultadoConsulta> consultarCarreraPrincipal(Aspirante aspirante) {
-        return buscarPorCarrera(aspirante.getPuntajeSaber11(), aspirante.getCarreraA());
+    public List<ResultadoConsulta> consultarCarreraPrincipal(Aspirante aspirante) throws ElementoNoEncontradoException {
+        List<ResultadoConsulta> resultados = buscarPorCarrera(aspirante.getPuntajeSaber11(), aspirante.getCarreraA());
+        if (resultados.isEmpty()) {
+            throw new ElementoNoEncontradoException(
+                "No se encontraron universidades que ofrezcan la carrera: " + aspirante.getCarreraA()
+            );
+        }
+        return resultados;
     }
 
     /**

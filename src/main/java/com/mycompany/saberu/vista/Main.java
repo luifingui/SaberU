@@ -1,9 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package com.mycompany.saberu.Vista;
+package com.mycompany.saberu.vista;
 
-import com.mycompany.saberu.Controlador.ControladorAdmision;
+import com.mycompany.saberu.controlador.ControladorAdmision;
 
 import javax.swing.SwingUtilities;
 
