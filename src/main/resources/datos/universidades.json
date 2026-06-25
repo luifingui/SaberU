@@ -8,19 +8,19 @@
       {
         "nombreCarrera": "Ingenieria de Sistemas",
         "idCarrera": 101,
-        "puntajeCorte": 300.0,
+        "puntajeCorte": 360.0,
         "facultad": "Facultad de Ingenieria"
       },
       {
         "nombreCarrera": "Medicina",
         "idCarrera": 102,
-        "puntajeCorte": 350.0,
+        "puntajeCorte": 400.0,
         "facultad": "Facultad de Ciencias de la Salud"
       }
     ]
   },
   {
-    "nombreUniversidad": "Universidad Nacional",
+    "nombreUniversidad": "Universidad Nacional de Colombia",
     "ubicacion": "Bogota",
     "sitioWeb": "https://unal.edu.co",
     "esAcreditada": true,
@@ -28,28 +28,174 @@
       {
         "nombreCarrera": "Derecho",
         "idCarrera": 201,
-        "puntajeCorte": 320.0,
+        "puntajeCorte": 310.0,
         "facultad": "Facultad de Derecho"
       },
       {
         "nombreCarrera": "Arquitectura",
         "idCarrera": 202,
-        "puntajeCorte": 310.0,
+        "puntajeCorte": 330.0,
         "facultad": "Facultad de Artes"
       }
     ]
   },
   {
-    "nombreUniversidad": "Universidad del atlantico",
+    "nombreUniversidad": "Universidad del Atlantico",
     "ubicacion": "Barranquilla",
-    "sitioWeb": "https://www.uniatlantico.edu.co/",
-    "esAcreditada": false,
+    "sitioWeb": "https://www.uniatlantico.edu.co",
+    "esAcreditada": true,
     "listaCarreras": [
       {
-        "nombreCarrera": "Tecnologia en Software",
+        "nombreCarrera": "Ingenieria de Sistemas",
         "idCarrera": 301,
-        "puntajeCorte": 240.0,
-        "facultad": "Facultad de Tecnologia"
+        "puntajeCorte": 360.0,
+        "facultad": "Facultad de Ingenieria"
+      },
+      {
+        "nombreCarrera": "Derecho",
+        "idCarrera": 302,
+        "puntajeCorte": 310.0,
+        "facultad": "Facultad de Ciencias Juridicas"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad del Valle",
+    "ubicacion": "Cali",
+    "sitioWeb": "https://www.univalle.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Ingenieria Civil",
+        "idCarrera": 401,
+        "puntajeCorte": 350.0,
+        "facultad": "Facultad de Ingenieria"
+      },
+      {
+        "nombreCarrera": "Contaduria Publica",
+        "idCarrera": 402,
+        "puntajeCorte": 300.0,
+        "facultad": "Facultad de Ciencias de la Administracion"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad Industrial de Santander",
+    "ubicacion": "Bucaramanga",
+    "sitioWeb": "https://uis.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Ingenieria Mecanica",
+        "idCarrera": 501,
+        "puntajeCorte": 355.0,
+        "facultad": "Facultad de Ingenierias Mecanicas"
+      },
+      {
+        "nombreCarrera": "Medicina",
+        "idCarrera": 502,
+        "puntajeCorte": 400.0,
+        "facultad": "Facultad de Salud"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad de Antioquia",
+    "ubicacion": "Medellin",
+    "sitioWeb": "https://www.udea.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Arquitectura",
+        "idCarrera": 601,
+        "puntajeCorte": 330.0,
+        "facultad": "Facultad de Artes"
+      },
+      {
+        "nombreCarrera": "Administracion de Empresas",
+        "idCarrera": 602,
+        "puntajeCorte": 280.0,
+        "facultad": "Facultad de Ciencias Economicas"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad Pedagogica y Tecnologica de Colombia",
+    "ubicacion": "Tunja",
+    "sitioWeb": "https://www.uptc.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Ingenieria Civil",
+        "idCarrera": 701,
+        "puntajeCorte": 350.0,
+        "facultad": "Facultad de Ingenieria"
+      },
+      {
+        "nombreCarrera": "Economia",
+        "idCarrera": 702,
+        "puntajeCorte": 330.0,
+        "facultad": "Facultad de Ciencias Economicas"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad del Cauca",
+    "ubicacion": "Popayan",
+    "sitioWeb": "https://www.unicauca.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Ingenieria Electronica",
+        "idCarrera": 801,
+        "puntajeCorte": 370.0,
+        "facultad": "Facultad de Ingenieria Electronica"
+      },
+      {
+        "nombreCarrera": "Contaduria Publica",
+        "idCarrera": 802,
+        "puntajeCorte": 300.0,
+        "facultad": "Facultad de Ciencias Contables"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad de Caldas",
+    "ubicacion": "Manizales",
+    "sitioWeb": "https://www.ucaldas.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Medicina Veterinaria y Zootecnia",
+        "idCarrera": 901,
+        "puntajeCorte": 315.0,
+        "facultad": "Facultad de Ciencias Agropecuarias"
+      },
+      {
+        "nombreCarrera": "Derecho",
+        "idCarrera": 902,
+        "puntajeCorte": 310.0,
+        "facultad": "Facultad de Ciencias Juridicas"
+      }
+    ]
+  },
+  {
+    "nombreUniversidad": "Universidad de Cordoba",
+    "ubicacion": "Montereria",
+    "sitioWeb": "https://www.unicordoba.edu.co",
+    "esAcreditada": true,
+    "listaCarreras": [
+      {
+        "nombreCarrera": "Medicina Veterinaria y Zootecnia",
+        "idCarrera": 1001,
+        "puntajeCorte": 315.0,
+        "facultad": "Facultad de Medicina Veterinaria"
+      },
+      {
+        "nombreCarrera": "Administracion de Empresas",
+        "idCarrera": 1002,
+        "puntajeCorte": 280.0,
+        "facultad": "Facultad de Ciencias Economicas"
       }
     ]
   }
