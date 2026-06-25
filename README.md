@@ -24,7 +24,6 @@ SaberU/
 │   │   │   ├── modelo/           (Entidades del dominio)
 │   │   │   │   ├── Aspirante.java
 │   │   │   │   ├── Carrera.java
-│   │   │   │   ├── FiltroConsulta.java
 │   │   │   │   ├── Persona.java
 │   │   │   │   ├── ResultadoConsulta.java
 │   │   │   │   └── Universidad.java
